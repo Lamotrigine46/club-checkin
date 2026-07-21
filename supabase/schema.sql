@@ -64,3 +64,21 @@ create policy "sessions_write_authenticated" on sessions
 drop policy if exists "attendance_select_authenticated" on attendance;
 create policy "attendance_select_authenticated" on attendance
   for select using (auth.role() = 'authenticated');
+
+-- Aggregates attendance counts per member in the database instead of
+-- returning one row per check-in to the client. This keeps the ranking
+-- page's response size bounded by the number of members (not the number
+-- of check-in records), so it doesn't get silently truncated by
+-- PostgREST's default 1000-row response limit as the club grows.
+create or replace function attendance_counts_for_sessions(p_session_ids uuid[])
+returns table(member_id uuid, attended_count bigint)
+language sql
+stable
+as $$
+  select member_id, count(*) as attended_count
+  from attendance
+  where session_id = any(p_session_ids)
+  group by member_id;
+$$;
+
+grant execute on function attendance_counts_for_sessions(uuid[]) to authenticated;

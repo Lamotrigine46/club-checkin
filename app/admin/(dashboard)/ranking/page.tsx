@@ -33,13 +33,12 @@ export default async function RankingPage({
 
   const attendanceCounts: Record<string, number> = {};
   if (totalSessions > 0) {
-    const { data: attendanceRows } = await supabase
-      .from("attendance")
-      .select("member_id")
-      .in("session_id", sessionIds);
+    const { data: counts } = (await supabase.rpc("attendance_counts_for_sessions", {
+      p_session_ids: sessionIds,
+    })) as { data: { member_id: string; attended_count: number }[] | null };
 
-    for (const row of attendanceRows ?? []) {
-      attendanceCounts[row.member_id] = (attendanceCounts[row.member_id] ?? 0) + 1;
+    for (const row of counts ?? []) {
+      attendanceCounts[row.member_id] = Number(row.attended_count);
     }
   }
 
