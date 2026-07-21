@@ -40,7 +40,7 @@ export default function CheckinForm({
 
     if (!res.ok) {
       setStatus("error");
-      setMessage(data.error ?? "签到失败");
+      setMessage(data.error ?? "Check-in failed");
       return;
     }
 
@@ -50,7 +50,7 @@ export default function CheckinForm({
   if (status === "done") {
     return (
       <div className="text-center">
-        <p className="text-lg font-medium">签到成功！</p>
+        <p className="text-lg font-medium">Checked in successfully!</p>
       </div>
     );
   }
@@ -59,7 +59,7 @@ export default function CheckinForm({
     <div>
       <input
         autoFocus
-        placeholder="搜索你的名字"
+        placeholder="Search your name"
         value={query}
         onChange={(e) => {
           setQuery(e.target.value);
@@ -85,7 +85,7 @@ export default function CheckinForm({
           </li>
         ))}
         {filtered.length === 0 && (
-          <li className="px-3 py-2 text-sm text-zinc-500">没有找到匹配的名字</li>
+          <li className="px-3 py-2 text-sm text-zinc-500">No matching names found</li>
         )}
       </ul>
 
@@ -96,7 +96,7 @@ export default function CheckinForm({
         disabled={!selectedId || status === "submitting"}
         className="w-full rounded-md bg-foreground py-2 text-sm font-medium text-background disabled:opacity-50"
       >
-        {status === "submitting" ? "签到中..." : "确认签到"}
+        {status === "submitting" ? "Checking in..." : "Confirm Check-In"}
       </button>
     </div>
   );

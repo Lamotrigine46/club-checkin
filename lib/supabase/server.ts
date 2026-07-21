@@ -18,7 +18,7 @@ export async function createClient() {
               cookieStore.set(name, value, options)
             );
           } catch {
-            // Server Component 里不能设置 cookie，session 刷新交给 proxy.ts 处理即可
+            // Setting cookies isn't allowed from a Server Component; proxy.ts handles session refresh instead
           }
         },
       },

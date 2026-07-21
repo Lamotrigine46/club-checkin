@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-// Next.js 16 把 middleware.ts 改名为 proxy.ts（导出 proxy 而不是 middleware）
+// Next.js 16 renamed middleware.ts to proxy.ts (exports `proxy` instead of `middleware`)
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
 

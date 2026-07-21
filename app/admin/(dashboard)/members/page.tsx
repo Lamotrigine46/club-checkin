@@ -50,7 +50,7 @@ export default function MembersPage() {
       .insert({ name: name.trim(), student_id: studentId.trim() || null });
 
     if (error) {
-      setError("添加失败：" + error.message);
+      setError("Failed to add: " + error.message);
       return;
     }
 
@@ -74,7 +74,7 @@ export default function MembersPage() {
       .insert(names.map((n) => ({ name: n })));
 
     if (error) {
-      setError("批量导入失败：" + error.message);
+      setError("Bulk import failed: " + error.message);
       return;
     }
 
@@ -86,7 +86,7 @@ export default function MembersPage() {
     const supabase = createClient();
     const { error } = await supabase.from("members").delete().eq("id", id);
     if (error) {
-      setError("删除失败：" + error.message);
+      setError("Failed to delete: " + error.message);
       return;
     }
     setMembers(await loadMembers());
@@ -94,7 +94,7 @@ export default function MembersPage() {
 
   return (
     <div>
-      <h1 className="mb-6 text-xl font-semibold">成员名单</h1>
+      <h1 className="mb-6 text-xl font-semibold">Members</h1>
 
       {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
 
@@ -103,16 +103,16 @@ export default function MembersPage() {
           onSubmit={handleAdd}
           className="rounded-lg border border-black/10 dark:border-white/10 p-4"
         >
-          <h2 className="mb-3 text-sm font-medium">单个添加</h2>
+          <h2 className="mb-3 text-sm font-medium">Add One</h2>
           <input
-            placeholder="姓名"
+            placeholder="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
             className="mb-2 w-full rounded-md border border-black/15 dark:border-white/15 bg-transparent px-3 py-2 text-sm outline-none"
           />
           <input
-            placeholder="学号（可选）"
+            placeholder="Student ID (optional)"
             value={studentId}
             onChange={(e) => setStudentId(e.target.value)}
             className="mb-3 w-full rounded-md border border-black/15 dark:border-white/15 bg-transparent px-3 py-2 text-sm outline-none"
@@ -121,34 +121,34 @@ export default function MembersPage() {
             type="submit"
             className="rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background"
           >
-            添加
+            Add
           </button>
         </form>
 
         <div className="rounded-lg border border-black/10 dark:border-white/10 p-4">
-          <h2 className="mb-3 text-sm font-medium">批量导入（每行一个姓名）</h2>
+          <h2 className="mb-3 text-sm font-medium">Bulk Import (one name per line)</h2>
           <textarea
             value={bulkText}
             onChange={(e) => setBulkText(e.target.value)}
             rows={4}
-            placeholder={"张三\n李四\n王五"}
+            placeholder={"John Smith\nJane Doe"}
             className="mb-3 w-full rounded-md border border-black/15 dark:border-white/15 bg-transparent px-3 py-2 text-sm outline-none"
           />
           <button
             onClick={handleBulkImport}
             className="rounded-md bg-foreground px-4 py-2 text-sm font-medium text-background"
           >
-            导入
+            Import
           </button>
         </div>
       </div>
 
       <h2 className="mb-3 text-sm font-medium text-zinc-500">
-        共 {members.length} 人
+        {members.length} members total
       </h2>
 
       {loading ? (
-        <p className="text-sm text-zinc-500">加载中...</p>
+        <p className="text-sm text-zinc-500">Loading...</p>
       ) : (
         <ul className="divide-y divide-black/10 dark:divide-white/10 rounded-lg border border-black/10 dark:border-white/10">
           {members.map((m) => (
@@ -166,7 +166,7 @@ export default function MembersPage() {
                 onClick={() => handleDelete(m.id)}
                 className="text-red-600 hover:underline"
               >
-                删除
+                Delete
               </button>
             </li>
           ))}

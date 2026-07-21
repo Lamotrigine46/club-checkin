@@ -18,7 +18,7 @@ export default function SignOutButton() {
       onClick={handleSignOut}
       className="text-sm text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
     >
-      退出登录
+      Log Out
     </button>
   );
 }

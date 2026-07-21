@@ -9,12 +9,12 @@ export async function POST(request: Request) {
   const memberId = body?.memberId as string | undefined;
 
   if (!sessionId || !token || !memberId) {
-    return NextResponse.json({ error: "缺少参数" }, { status: 400 });
+    return NextResponse.json({ error: "Missing parameters" }, { status: 400 });
   }
 
   if (!verifyQrToken(sessionId, token)) {
     return NextResponse.json(
-      { error: "二维码已过期，请重新扫描最新的二维码" },
+      { error: "QR code expired, please scan the latest one" },
       { status: 400 }
     );
   }
@@ -28,10 +28,10 @@ export async function POST(request: Request) {
     .single();
 
   if (!session) {
-    return NextResponse.json({ error: "该 session 不存在" }, { status: 404 });
+    return NextResponse.json({ error: "Session not found" }, { status: 404 });
   }
   if (!session.is_active) {
-    return NextResponse.json({ error: "该 session 已关闭签到" }, { status: 400 });
+    return NextResponse.json({ error: "Check-in is closed for this session" }, { status: 400 });
   }
 
   const { data: member } = await supabase
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
     .single();
 
   if (!member) {
-    return NextResponse.json({ error: "找不到该成员" }, { status: 404 });
+    return NextResponse.json({ error: "Member not found" }, { status: 404 });
   }
 
   const { error } = await supabase
@@ -51,11 +51,11 @@ export async function POST(request: Request) {
   if (error) {
     if (error.code === "23505") {
       return NextResponse.json(
-        { error: "你已经签到过了" },
+        { error: "You've already checked in" },
         { status: 409 }
       );
     }
-    return NextResponse.json({ error: "签到失败：" + error.message }, { status: 500 });
+    return NextResponse.json({ error: "Check-in failed: " + error.message }, { status: 500 });
   }
 
   return NextResponse.json({ ok: true });

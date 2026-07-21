@@ -23,7 +23,7 @@ export function generateQrToken(sessionId: string): string {
 
 export function verifyQrToken(sessionId: string, token: string): boolean {
   const window = currentWindow();
-  // 允许当前窗口和上一个窗口，给扫码到提交之间的延迟留余量
+  // Accept the current and previous window to allow for scan-to-submit delay
   return (
     token === tokenForWindow(sessionId, window) ||
     token === tokenForWindow(sessionId, window - 1)

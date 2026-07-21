@@ -1,6 +1,15 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
+function StatCard({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-lg border border-black/10 dark:border-white/10 p-4">
+      <p className="text-xs text-zinc-500">{label}</p>
+      <p className="mt-1 text-2xl font-semibold">{value}</p>
+    </div>
+  );
+}
+
 export default async function RankingPage({
   searchParams,
 }: {
@@ -42,13 +51,27 @@ export default async function RankingPage({
     })
     .sort((a, b) => b.percentage - a.percentage || b.attended - a.attended);
 
+  const averagePercentage =
+    ranking.length > 0
+      ? ranking.reduce((sum, m) => sum + m.percentage, 0) / ranking.length
+      : 0;
+
   return (
     <div>
-      <h1 className="mb-6 text-xl font-semibold">出勤排名</h1>
+      <h1 className="mb-6 text-xl font-semibold">Attendance Ranking</h1>
+
+      <div className="mb-6 grid grid-cols-3 gap-4">
+        <StatCard label="Total Sessions" value={String(totalSessions)} />
+        <StatCard label="Total Members" value={String(members?.length ?? 0)} />
+        <StatCard
+          label="Average Attendance Rate"
+          value={totalSessions > 0 ? `${averagePercentage.toFixed(1)}%` : "—"}
+        />
+      </div>
 
       <form className="mb-6 flex flex-wrap items-end gap-3 text-sm">
         <div>
-          <label className="mb-1 block text-zinc-500">开始日期</label>
+          <label className="mb-1 block text-zinc-500">Start Date</label>
           <input
             type="date"
             name="start"
@@ -57,7 +80,7 @@ export default async function RankingPage({
           />
         </div>
         <div>
-          <label className="mb-1 block text-zinc-500">结束日期</label>
+          <label className="mb-1 block text-zinc-500">End Date</label>
           <input
             type="date"
             name="end"
@@ -69,27 +92,27 @@ export default async function RankingPage({
           type="submit"
           className="rounded-md bg-foreground px-4 py-1.5 font-medium text-background"
         >
-          筛选
+          Filter
         </button>
         <Link href="/admin/ranking" className="text-zinc-500 hover:underline">
-          重置
+          Reset
         </Link>
       </form>
 
       <p className="mb-4 text-sm text-zinc-500">
-        统计范围内共 {totalSessions} 场 session
+        {totalSessions} session{totalSessions === 1 ? "" : "s"} in range
       </p>
 
       {totalSessions === 0 ? (
-        <p className="text-sm text-zinc-500">该范围内还没有 session，无法计算出勤率。</p>
+        <p className="text-sm text-zinc-500">No sessions in this range yet.</p>
       ) : (
         <table className="w-full border-collapse text-sm">
           <thead>
             <tr className="border-b border-black/10 dark:border-white/10 text-left text-zinc-500">
               <th className="py-2 pr-4">#</th>
-              <th className="py-2 pr-4">姓名</th>
-              <th className="py-2 pr-4">出勤</th>
-              <th className="py-2">出勤率</th>
+              <th className="py-2 pr-4">Name</th>
+              <th className="py-2 pr-4">Attended</th>
+              <th className="py-2">Attendance Rate</th>
             </tr>
           </thead>
           <tbody>

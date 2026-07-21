@@ -1,8 +1,8 @@
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 
 /**
- * 仅供服务端使用（Route Handlers），绕过 RLS。绝不能在 Client Component 中引用，
- * 否则 service role key 会被打进浏览器 bundle。
+ * Server-only (Route Handlers), bypasses RLS. Never import this from a
+ * Client Component or the service role key will end up in the browser bundle.
  */
 export function createAdminClient() {
   return createSupabaseClient(

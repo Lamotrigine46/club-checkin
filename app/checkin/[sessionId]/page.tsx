@@ -28,13 +28,13 @@ export default async function CheckinPage({
     .single();
 
   if (!session) {
-    return <Message>该签到链接无效</Message>;
+    return <Message>This check-in link is invalid</Message>;
   }
   if (!session.is_active) {
-    return <Message>该 session 已关闭签到</Message>;
+    return <Message>Check-in is closed for this session</Message>;
   }
   if (!t || !verifyQrToken(sessionId, t)) {
-    return <Message>二维码已过期，请重新扫描最新的二维码</Message>;
+    return <Message>QR code expired, please scan the latest one</Message>;
   }
 
   const { data: members } = await supabase
@@ -44,8 +44,11 @@ export default async function CheckinPage({
 
   return (
     <div className="mx-auto w-full max-w-sm flex-1 px-6 py-10">
+      <p className="mb-1 text-sm font-semibold tracking-wide text-zinc-500">
+        KCL RACING
+      </p>
       <h1 className="mb-1 text-xl font-semibold">{session.title}</h1>
-      <p className="mb-6 text-sm text-zinc-500">请选择你的名字完成签到</p>
+      <p className="mb-6 text-sm text-zinc-500">Select your name to check in</p>
       <CheckinForm sessionId={sessionId} token={t} members={members ?? []} />
     </div>
   );

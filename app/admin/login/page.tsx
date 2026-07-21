@@ -25,7 +25,7 @@ export default function LoginPage() {
     setLoading(false);
 
     if (error) {
-      setError("邮箱或密码不正确");
+      setError("Incorrect email or password");
       return;
     }
 
@@ -39,10 +39,13 @@ export default function LoginPage() {
         onSubmit={handleSubmit}
         className="w-full max-w-sm rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-zinc-900 p-8 shadow-sm"
       >
-        <h1 className="text-xl font-semibold mb-6">管理员登录</h1>
+        <p className="mb-1 text-sm font-semibold tracking-wide text-zinc-500">
+          KCL RACING
+        </p>
+        <h1 className="text-xl font-semibold mb-6">Admin Login</h1>
 
         <label className="block text-sm font-medium mb-1" htmlFor="email">
-          邮箱
+          Email
         </label>
         <input
           id="email"
@@ -54,7 +57,7 @@ export default function LoginPage() {
         />
 
         <label className="block text-sm font-medium mb-1" htmlFor="password">
-          密码
+          Password
         </label>
         <input
           id="password"
@@ -72,7 +75,7 @@ export default function LoginPage() {
           disabled={loading}
           className="w-full rounded-md bg-foreground text-background py-2 text-sm font-medium disabled:opacity-50"
         >
-          {loading ? "登录中..." : "登录"}
+          {loading ? "Signing in..." : "Log In"}
         </button>
       </form>
     </div>

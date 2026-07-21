@@ -36,7 +36,7 @@ export default function NewSessionPage() {
     setLoading(false);
 
     if (error || !data) {
-      setError("创建失败：" + error?.message);
+      setError("Failed to create: " + error?.message);
       return;
     }
 
@@ -45,25 +45,25 @@ export default function NewSessionPage() {
 
   return (
     <div className="mx-auto max-w-md">
-      <h1 className="mb-6 text-xl font-semibold">新建 Session</h1>
+      <h1 className="mb-6 text-xl font-semibold">New Session</h1>
       <form
         onSubmit={handleSubmit}
         className="rounded-lg border border-black/10 dark:border-white/10 p-6"
       >
         <label className="mb-1 block text-sm font-medium" htmlFor="title">
-          标题
+          Title
         </label>
         <input
           id="title"
           required
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="例如：第 5 次例会"
+          placeholder="e.g. Session 5"
           className="mb-4 w-full rounded-md border border-black/15 dark:border-white/15 bg-transparent px-3 py-2 text-sm outline-none"
         />
 
         <label className="mb-1 block text-sm font-medium" htmlFor="date">
-          日期
+          Date
         </label>
         <input
           id="date"
@@ -81,7 +81,7 @@ export default function NewSessionPage() {
           disabled={loading}
           className="w-full rounded-md bg-foreground py-2 text-sm font-medium text-background disabled:opacity-50"
         >
-          {loading ? "创建中..." : "创建并生成二维码"}
+          {loading ? "Creating..." : "Create & Generate QR Code"}
         </button>
       </form>
     </div>

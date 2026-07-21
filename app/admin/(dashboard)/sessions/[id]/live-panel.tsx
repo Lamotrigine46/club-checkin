@@ -58,23 +58,23 @@ export default function LiveSessionPanel({
       <div className="flex flex-col items-center rounded-lg border border-black/10 dark:border-white/10 p-6">
         {qrDataUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={qrDataUrl} alt="签到二维码" className="h-80 w-80" />
+          <img src={qrDataUrl} alt="Check-in QR code" className="h-80 w-80" />
         ) : (
           <div className="flex h-80 w-80 items-center justify-center text-sm text-zinc-500">
-            生成中...
+            Generating...
           </div>
         )}
-        <p className="mt-3 text-xs text-zinc-500">二维码每 30 秒自动刷新</p>
+        <p className="mt-3 text-xs text-zinc-500">QR code refreshes every 30 seconds</p>
       </div>
 
       <div className="rounded-lg border border-black/10 dark:border-white/10 p-4">
         <h2 className="mb-3 text-sm font-medium">
-          已签到 {attendance.length} 人
+          {attendance.length} checked in
         </h2>
         <ul className="max-h-96 divide-y divide-black/10 dark:divide-white/10 overflow-y-auto">
           {attendance.map((row) => (
             <li key={row.id} className="flex justify-between py-2 text-sm">
-              <span>{row.members?.name ?? "未知"}</span>
+              <span>{row.members?.name ?? "Unknown"}</span>
               <span className="text-zinc-500">
                 {new Date(row.checked_in_at).toLocaleTimeString()}
               </span>

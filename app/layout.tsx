@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "社团签到系统",
-  description: "扫码签到与出勤统计",
+  title: "KCL Racing Attendance",
+  description: "QR check-in and attendance tracking for KCL Racing",
 };
 
 export default function RootLayout({
